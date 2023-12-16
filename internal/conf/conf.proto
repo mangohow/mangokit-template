@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package conf;
+
+option go_package = "internal/conf;conf";
+
+message Bootstrap {
+  Server server = 1;
+  Data data = 2;
+  Logger logger = 3;
+}
+
+message Server {
+  message HTTP {
+    string addr = 1;
+    string name = 2;
+    string version = 3;
+  }
+
+  HTTP http = 1;
+}
+
+message Data {
+  message Mysql {
+    string dataSourceName = 1;
+    int32 maxOpenConns = 2;
+    int32 maxIdleConns = 3;
+  }
+
+  Mysql mysql = 1;
+}
+
+message Logger {
+  string level = 1;
+  string filePath = 2;
+  string fileName = 3;
+  Output output = 4;
+  Formatter formatter = 5;
+  bool caller = 6;
+
+  enum Output {
+    Stdout = 0;
+    File = 1;
+  }
+
+  enum Formatter {
+    Other = 0;
+    Json = 1;
+    Text = 2;
+  }
+}

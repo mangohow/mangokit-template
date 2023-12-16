@@ -1,0 +1,85 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: Greeter API
+    description: The greeting service definition.
+    version: 0.0.1
+paths:
+    /error:
+        get:
+            tags:
+                - Greeter
+            operationId: Greeter_GetError
+            parameters:
+                - name: username
+                  in: query
+                  schema:
+                    type: string
+                - name: password
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/helloworld.v1.GetErrorResponse'
+    /helloworld/:name:
+        get:
+            tags:
+                - Greeter
+            description: Sends a greeting
+            operationId: Greeter_SayHello
+            parameters:
+                - name: name
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/helloworld.v1.HelloReply'
+    /user:
+        post:
+            tags:
+                - Greeter
+            operationId: Greeter_AddUser
+            parameters:
+                - name: Username
+                  in: query
+                  schema:
+                    type: string
+                - name: Password
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/helloworld.v1.AddUserResponse'
+components:
+    schemas:
+        helloworld.v1.AddUserResponse:
+            type: object
+            properties: {}
+        helloworld.v1.GetErrorResponse:
+            type: object
+            properties: {}
+        helloworld.v1.HelloReply:
+            type: object
+            properties:
+                message:
+                    type: string
+            description: The response message containing the greetings
+tags:
+    - name: Greeter
