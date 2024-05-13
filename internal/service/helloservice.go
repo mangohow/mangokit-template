@@ -27,12 +27,12 @@ func (s *GreeterService) SayHello(ctx context.Context, request *v1.HelloRequest)
 	return &v1.HelloReply{Message: "hello, " + request.Name}, nil
 }
 
-func (s *GreeterService) GetError(ctx context.Context, request *v1.GetErrorRequest) (*v1.GetErrorResponse, error) {
+func (s *GreeterService) GetError(ctx context.Context, request *v1.GetErrorRequest) error {
 	s.logger.Info("GetError ", "req", request)
-	return nil, errorv1.ErrorUserNotFound("user not found")
+	return errorv1.ErrorUserNotFound
 }
 
-func (s *GreeterService) AddUser(ctx context.Context, request *v1.AddUserRequest) (*v1.AddUserResponse, error) {
+func (s *GreeterService) AddUser(ctx context.Context, request *v1.AddUserRequest) error {
 	s.logger.Info("AddUser ", "req", request)
-	return &v1.AddUserResponse{}, nil
+	return nil
 }

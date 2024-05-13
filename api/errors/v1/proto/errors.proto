@@ -10,7 +10,7 @@ enum ErrorReason {
   option (errors.default_code) = 500;
 
   // 为某个枚举单独设置错误码
-  USER_NOT_FOUND = 0 [(errors.code) = 404];
+  UserNotFound = 0 [(errors.code) = 404, (errors.desc) = "用户不存在"];
 
-  CONTENT_MISSING = 1 [(errors.code) = 400];
+  ContentMissing = 1 [(errors.code) = 400, (errors.desc) = "内容不存在"];
 }

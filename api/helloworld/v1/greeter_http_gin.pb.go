@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-gin v1.0.0
 // - protoc             v3.20.1
-// source: helloworld/v1/proto/greeter.proto
+// source: api/helloworld/v1/proto/greeter.proto
 
 package v1
 
@@ -18,8 +18,8 @@ import (
 type GreeterHTTPService interface {
 	// SayHello Sends a greeting
 	SayHello(context.Context, *HelloRequest) (*HelloReply, error)
-	GetError(context.Context, *GetErrorRequest) (*GetErrorResponse, error)
-	AddUser(context.Context, *AddUserRequest) (*AddUserResponse, error)
+	GetError(context.Context, *GetErrorRequest) error
+	AddUser(context.Context, *AddUserRequest) error
 }
 
 func RegisterGreeterHTTPService(server *httpwrapper.Server, svc GreeterHTTPService) {
@@ -34,13 +34,11 @@ func _Greeter_SayHello_HTTP_Handler(svc GreeterHTTPService) httpwrapper.HandlerF
 		if err := ctx.BindRequest(in); err != nil {
 			return err
 		}
-
 		value := context.WithValue(context.Background(), "gin-ctx", ctx)
 		reply, err := svc.SayHello(value, in)
 		if err != nil {
 			return err
 		}
-
 		ctx.JSON(http.StatusOK, serialize.Response{Data: reply})
 
 		return nil
@@ -53,14 +51,12 @@ func _Greeter_GetError_HTTP_Handler(svc GreeterHTTPService) httpwrapper.HandlerF
 		if err := ctx.BindRequest(in); err != nil {
 			return err
 		}
-
 		value := context.WithValue(context.Background(), "gin-ctx", ctx)
-		reply, err := svc.GetError(value, in)
+		err := svc.GetError(value, in)
 		if err != nil {
 			return err
 		}
-
-		ctx.JSON(http.StatusOK, serialize.Response{Data: reply})
+		ctx.Status(http.StatusOK)
 
 		return nil
 	}
@@ -72,14 +68,12 @@ func _Greeter_AddUser_HTTP_Handler(svc GreeterHTTPService) httpwrapper.HandlerFu
 		if err := ctx.BindRequest(in); err != nil {
 			return err
 		}
-
 		value := context.WithValue(context.Background(), "gin-ctx", ctx)
-		reply, err := svc.AddUser(value, in)
+		err := svc.AddUser(value, in)
 		if err != nil {
 			return err
 		}
-
-		ctx.JSON(http.StatusOK, serialize.Response{Data: reply})
+		ctx.Status(http.StatusOK)
 
 		return nil
 	}

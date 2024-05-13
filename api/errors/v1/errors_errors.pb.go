@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-error v1.0.0
 // - protoc              v3.20.1
-// source: errors/v1/proto/errors.proto
+// source: api/errors/v1/proto/errors.proto
 
 package v1
 
@@ -12,11 +12,21 @@ import (
 	"github.com/mangohow/mangokit/errors"
 )
 
+const (
+	Desc_UserNotFound   = "用户不存在"
+	Desc_ContentMissing = "内容不存在"
+)
+
+var (
+	ErrorUserNotFound   = errors.New(int32(ErrorReason_UserNotFound), 404, "UserNotFound", Desc_UserNotFound)
+	ErrorContentMissing = errors.New(int32(ErrorReason_ContentMissing), 400, "ContentMissing", Desc_ContentMissing)
+)
+
 // 为某个枚举单独设置错误码
-func ErrorUserNotFound(format string, args ...interface{}) errors.Error {
-	return errors.New(int32(ErrorReason_USER_NOT_FOUND), 404, ErrorReason_USER_NOT_FOUND.String(), fmt.Sprintf(format, args...))
+func NewErrorUserNotFound(format string, args ...interface{}) errors.Error {
+	return errors.New(int32(ErrorReason_UserNotFound), 404, ErrorReason_UserNotFound.String(), fmt.Sprintf(format, args...))
 }
 
-func ErrorContentMissing(format string, args ...interface{}) errors.Error {
-	return errors.New(int32(ErrorReason_CONTENT_MISSING), 400, ErrorReason_CONTENT_MISSING.String(), fmt.Sprintf(format, args...))
+func NewErrorContentMissing(format string, args ...interface{}) errors.Error {
+	return errors.New(int32(ErrorReason_ContentMissing), 400, ErrorReason_ContentMissing.String(), fmt.Sprintf(format, args...))
 }

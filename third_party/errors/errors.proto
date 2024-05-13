@@ -13,4 +13,5 @@ extend google.protobuf.EnumOptions {
 
 extend google.protobuf.EnumValueOptions {
   int32 code = 1109;
+  string desc = 1110;
 }
