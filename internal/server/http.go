@@ -1,7 +1,7 @@
 package server
 
 import (
-	v1 "github.com/mangohow/mangokit-template/api/helloworld/v1"
+	"github.com/mangohow/mangokit-template/api/helloworld"
 	"github.com/mangohow/mangokit-template/internal/conf"
 	"github.com/mangohow/mangokit-template/internal/service"
 	"github.com/mangohow/mangokit/transport/httpwrapper"
@@ -17,7 +17,7 @@ func NewHttpServer(serverConf *conf.Server,
 		httpwrapper.WithLogger(logger),
 	)
 
-	v1.RegisterGreeterHTTPService(server, greeterService)
+	helloworld.RegisterGreeterHTTPService(server, greeterService)
 
 	return server
 }

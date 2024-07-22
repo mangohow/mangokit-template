@@ -1,0 +1,100 @@
+syntax = "proto3";
+
+package helloworld.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "mangokit/stag.proto";
+
+option go_package = "api/helloworld;helloworld";
+
+// Examples:
+service Greeter {
+  // Sends a greeting
+  rpc SayHello (HelloRequest) returns (HelloReply) {
+    option (google.api.http) = {
+      get: "/helloworld/:name"
+    };
+  }
+
+  rpc GetError (GetErrorRequest) returns (GetErrorResponse) {
+    option (google.api.http) = {
+      get: "/error"
+    };
+  }
+
+  rpc AddUser (AddUserRequest) returns (AddUserResponse) {
+    option (google.api.http) = {
+      post: "/user"
+    };
+  }
+
+  rpc GetUserInfo(GetUserInfoRequest) returns(GetUserInfoResponse) {
+    option (google.api.http) = {
+      post: "/userinfo"
+    };
+  }
+}
+
+// 通过file级别的option为该文件下所有message设置tag
+// 可配置多个
+option (stag.struct_tags) = {
+  name: "form",      // tag的key
+  case: CamelCase,   // 根据变量名生成val，指定生成格式（小驼峰、大驼峰、下划线）,
+  omitempty: false   // 设置是否omitempty
+};
+
+
+// The request message containing the user's name.
+message HelloRequest {
+  string name = 1;
+}
+
+// The response message containing the greetings
+message HelloReply {
+  string message = 1;
+}
+
+message GetErrorRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message GetErrorResponse {
+
+}
+
+message AddUserRequest {
+  string Username = 1;
+  string Password = 2;
+}
+
+message AddUserResponse {
+
+}
+
+message GetUserInfoRequest {
+  int64 id = 1 [(stag.tags)="test:id"];
+}
+
+message GetUserInfoResponse {
+
+  // 设置message级别的tag，该message下的所有字段都会应用
+  // 可配置多个
+  option (stag.field_tags) = {
+    case: CamelCase,
+    name: "db",
+    omitempty: false
+  };
+
+  // 单独为某些字段设置tag
+  // 可以设置多个stag.tags
+  // 也可以在一个stag.tags中设置多个kv
+  int64 id = 1 [(stag.tags)="validate:gte=0"];
+  string username = 2 [(stag.tags)="validate:\"required,min=8,max=15\""];
+  string email = 3 [(stag.tags)="validate:email"];
+  string phoneNum = 4 [(stag.tags)="validate:len=11", (stag.tags)="key:test"];
+
+  google.protobuf.Timestamp createTime = 5 [(stag.tags)="key1:abc key2:123"];
+}
+

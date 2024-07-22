@@ -2,9 +2,10 @@ package service
 
 import (
 	"context"
+	errorv1 "github.com/mangohow/mangokit-template/api/errors"
+	"github.com/mangohow/mangokit-template/api/helloworld"
+	"google.golang.org/protobuf/types/known/timestamppb"
 
-	errorv1 "github.com/mangohow/mangokit-template/api/errors/v1"
-	"github.com/mangohow/mangokit-template/api/helloworld/v1"
 	"github.com/mangohow/mangokit-template/internal/dao"
 	"github.com/sirupsen/logrus"
 )
@@ -21,18 +22,28 @@ func NewGreeterService(greeterDao *dao.GreeterDao, logger *logrus.Logger) *Greet
 	}
 }
 
-func (s *GreeterService) SayHello(ctx context.Context, request *v1.HelloRequest) (*v1.HelloReply, error) {
+func (s *GreeterService) SayHello(ctx context.Context, request *helloworld.HelloRequest) (*helloworld.HelloReply, error) {
 	s.logger.Info(s.greeterDao.String())
 
-	return &v1.HelloReply{Message: "hello, " + request.Name}, nil
+	return &helloworld.HelloReply{Message: "hello, " + request.Name}, nil
 }
 
-func (s *GreeterService) GetError(ctx context.Context, request *v1.GetErrorRequest) error {
+func (s *GreeterService) GetError(ctx context.Context, request *helloworld.GetErrorRequest) error {
 	s.logger.Info("GetError ", "req", request)
 	return errorv1.ErrorUserNotFound
 }
 
-func (s *GreeterService) AddUser(ctx context.Context, request *v1.AddUserRequest) error {
+func (s *GreeterService) AddUser(ctx context.Context, request *helloworld.AddUserRequest) error {
 	s.logger.Info("AddUser ", "req", request)
 	return nil
+}
+
+func (s *GreeterService) GetUserInfo(ctx context.Context, request *helloworld.GetUserInfoRequest) (*helloworld.GetUserInfoResponse, error) {
+	return &helloworld.GetUserInfoResponse{
+		Id:         request.Id,
+		Username:   "test",
+		Email:      "test@test.com",
+		PhoneNum:   "111",
+		CreateTime: timestamppb.Now(),
+	}, nil
 }

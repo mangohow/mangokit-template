@@ -1,9 +1,10 @@
 syntax = "proto3";
 
 package errors.v1;
+
 import "errors/errors.proto";
 
-option go_package = "api/errors/v1;v1";
+option go_package = "api/errors;errors";
 
 enum ErrorReason {
   // 设置缺省错误码

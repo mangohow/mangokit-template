@@ -33,7 +33,7 @@ func main() {
 
 	// 设置信号处理器
 	ctx := proc.SetupSignalHandler()
-
+	server.GinEngine().Use()
 	// 启动server
 	go func() {
 		if err := server.Start(); err != nil {

@@ -5,6 +5,7 @@ go 1.21.0
 require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/go-sql-driver/mysql v1.7.1
+	github.com/gogo/protobuf v1.3.2
 	github.com/google/wire v0.5.0
 	github.com/jmoiron/sqlx v1.3.5
 	github.com/mangohow/mangokit v1.0.0
@@ -57,3 +58,5 @@ require (
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
+
+replace google.golang.org/protobuf v1.31.0 => github.com/mangohow/protobuf-go v1.0.0
