@@ -10,10 +10,10 @@ import (
 	"github.com/mangohow/mangokit-template/internal/dao"
 	"github.com/mangohow/mangokit-template/internal/server"
 	"github.com/mangohow/mangokit-template/internal/service"
-	"github.com/mangohow/mangokit/transport/httpwrapper"
+	"github.com/mangohow/mangokit/transport/http"
 	"github.com/sirupsen/logrus"
 )
 
-func newApp(serverConf *conf.Server, dataConf *conf.Data, logger *logrus.Logger) (*httpwrapper.Server, func(), error) {
+func newApp(serverConf *conf.Server, dataConf *conf.Data, logger *logrus.Logger) (*http.Server, func(), error) {
 	panic(wire.Build(dao.ProviderSet, service.ProviderSet, server.NewHttpServer))
 }

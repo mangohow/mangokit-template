@@ -6,12 +6,14 @@ import "errors/errors.proto";
 
 option go_package = "api/errors;errors";
 
+
+// 设置错误码
 enum ErrorReason {
   // 设置缺省错误码
   option (errors.default_code) = 500;
 
-  // 为某个枚举单独设置错误码
-  UserNotFound = 0 [(errors.code) = 404, (errors.desc) = "用户不存在"];
+  Placeholder = 0;
 
-  ContentMissing = 1 [(errors.code) = 400, (errors.desc) = "内容不存在"];
+  NameCantNotBeEmpty = 1 [(errors.code) = 400, (errors.desc) = "姓名不能为空"];
+  XXX = 2 [(errors.code)=400, (errors.desc)="xxx"];
 }

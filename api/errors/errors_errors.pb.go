@@ -13,20 +13,23 @@ import (
 )
 
 const (
-	Desc_UserNotFound   = "用户不存在"
-	Desc_ContentMissing = "内容不存在"
+	Desc_NameCantNotBeEmpty = "姓名不能为空"
+	Desc_XXX                = "xxx"
 )
 
 var (
-	ErrorUserNotFound   = errors.New(int32(ErrorReason_UserNotFound), 404, "UserNotFound", Desc_UserNotFound)
-	ErrorContentMissing = errors.New(int32(ErrorReason_ContentMissing), 400, "ContentMissing", Desc_ContentMissing)
+	ErrorNameCantNotBeEmpty = errors.New(int32(ErrorReason_NameCantNotBeEmpty), 400, "NameCantNotBeEmpty", Desc_NameCantNotBeEmpty)
+	ErrorXXX                = errors.New(int32(ErrorReason_XXX), 400, "XXX", Desc_XXX)
 )
 
-// 为某个枚举单独设置错误码
-func NewErrorUserNotFound(format string, args ...interface{}) errors.Error {
-	return errors.New(int32(ErrorReason_UserNotFound), 404, ErrorReason_UserNotFound.String(), fmt.Sprintf(format, args...))
+func NewErrorPlaceholder(format string, args ...interface{}) errors.Error {
+	return errors.New(int32(ErrorReason_Placeholder), 500, ErrorReason_Placeholder.String(), fmt.Sprintf(format, args...))
 }
 
-func NewErrorContentMissing(format string, args ...interface{}) errors.Error {
-	return errors.New(int32(ErrorReason_ContentMissing), 400, ErrorReason_ContentMissing.String(), fmt.Sprintf(format, args...))
+func NewErrorNameCantNotBeEmpty(format string, args ...interface{}) errors.Error {
+	return errors.New(int32(ErrorReason_NameCantNotBeEmpty), 400, ErrorReason_NameCantNotBeEmpty.String(), fmt.Sprintf(format, args...))
+}
+
+func NewErrorXxx(format string, args ...interface{}) errors.Error {
+	return errors.New(int32(ErrorReason_XXX), 400, ErrorReason_XXX.String(), fmt.Sprintf(format, args...))
 }
