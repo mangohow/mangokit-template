@@ -8,7 +8,7 @@ import (
 )
 
 func RunTime(logger *logrus.Logger) http.Middleware {
-	return func(ctx context.Context, req interface{}, handler http.NextHandler) error {
+	return func(ctx context.Context, req interface{}, handler http.Handler) (interface{}, error) {
 		defer runTime(time.Now(), logger)
 
 		return handler(ctx, req)

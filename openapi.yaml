@@ -3,21 +3,16 @@
 
 openapi: 3.0.3
 info:
-    title: Greeter API
-    description: 'Examples:'
+    title: ""
     version: 0.0.1
 paths:
-    /error:
+    /api/hw/:message:
         get:
             tags:
-                - Greeter
-            operationId: Greeter_GetError
+                - Hello
+            operationId: Hello_HelloWorldApi
             parameters:
-                - name: username
-                  in: query
-                  schema:
-                    type: string
-                - name: password
+                - name: message
                   in: query
                   schema:
                     type: string
@@ -27,8 +22,8 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/helloworld.v1.GetErrorResponse'
-    /helloworld/:name:
+                                $ref: '#/components/schemas/hello.HelloWorld'
+    /greeter:
         get:
             tags:
                 - Greeter
@@ -37,26 +32,10 @@ paths:
             parameters:
                 - name: name
                   in: query
+                  description: 单独给某个field设置tag
                   schema:
                     type: string
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/helloworld.v1.HelloReply'
-    /user:
-        post:
-            tags:
-                - Greeter
-            operationId: Greeter_AddUser
-            parameters:
-                - name: Username
-                  in: query
-                  schema:
-                    type: string
-                - name: Password
+                - name: addr
                   in: query
                   schema:
                     type: string
@@ -66,52 +45,20 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/helloworld.v1.AddUserResponse'
-    userinfo:
-        post:
-            tags:
-                - Greeter
-            operationId: Greeter_GetUserInfo
-            parameters:
-                - name: id
-                  in: query
-                  schema:
-                    type: string
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/helloworld.v1.GetUserInfoResponse'
+                                $ref: '#/components/schemas/helloworld.HelloReply'
 components:
     schemas:
-        helloworld.v1.AddUserResponse:
-            type: object
-            properties: {}
-        helloworld.v1.GetErrorResponse:
-            type: object
-            properties: {}
-        helloworld.v1.GetUserInfoResponse:
-            type: object
-            properties:
-                id:
-                    type: string
-                username:
-                    type: string
-                email:
-                    type: string
-                phoneNum:
-                    type: string
-                createTime:
-                    type: string
-                    description: 使用标准库Time，并且不为指针类型
-                    format: date-time
-        helloworld.v1.HelloReply:
+        hello.HelloWorld:
             type: object
             properties:
                 message:
                     type: string
-            description: The response message containing the greetings
+        helloworld.HelloReply:
+            type: object
+            properties:
+                message:
+                    type: string
 tags:
     - name: Greeter
+      description: 'Examples:'
+    - name: Hello

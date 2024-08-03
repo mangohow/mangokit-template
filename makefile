@@ -30,7 +30,7 @@ api:
 		   --proto_path=./api             \
 		   --go_out=.                \
 		   --go-gin_out=.            \
-		   --go-error_out=.          \
+		   --go_error_out=.          \
 		   --openapi_out=fq_schema_naming=true,default_response=false:.  \
 		   $(INTERNAL_PROTO_FILES)
 

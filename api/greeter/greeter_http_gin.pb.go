@@ -2,16 +2,14 @@
 // versions:
 // - protoc-gen-go-gin v1.0.0
 // - protoc             v5.26.1
-// source: greeter/greeter.proto
+// source: api/greeter/greeter.proto
 
 package greeter
 
 import (
 	"context"
 
-	"github.com/mangohow/mangokit/serialize"
-	"github.com/mangohow/mangokit/tools"
-	http "github.com/mangohow/mangokit/transport/http"
+	"github.com/mangohow/mangokit/transport/http"
 )
 
 // GreeterHTTPService Examples:
@@ -24,31 +22,44 @@ func RegisterGreeterHTTPService(server *http.Server, svc GreeterHTTPService) {
 	server.RegisterService(_GreeterHTTPService_serviceDesc, svc)
 }
 
-func _Greeter_SayHello_HTTP_Handler(svc interface{}, middleware http.Middleware) http.Middleware {
-	return func(ctx context.Context, req interface{}, next http.NextHandler) error {
-		in := new(HelloRequest)
-		err := http.BindVar(ctx, in)
-		if err != nil {
-			return err
-		}
-
-		handler := func(ctx context.Context, req interface{}) error {
-			ctxt := tools.GinCtxFromContext(ctx)
-			reply, err := svc.(GreeterHTTPService).SayHello(ctx, in)
-			if err != nil {
-				return err
-			}
-			ctxt.JSON(http.StatusOK, serialize.Response{Data: reply})
-
-			return nil
-		}
-
-		if middleware == nil {
-			return handler(ctx, in)
-		}
-
-		return middleware(ctx, in, handler)
+func _Greeter_SayHello_HTTP_Handler(svc interface{}, ctx context.Context, dec func(interface{}) error, middleware http.Middleware) (interface{}, error) {
+	in := new(HelloRequest)
+	err := dec(in)
+	if err != nil {
+		return nil, err
 	}
+
+	if middleware == nil {
+		return svc.(GreeterHTTPService).SayHello(ctx, in)
+	}
+
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return svc.(GreeterHTTPService).SayHello(ctx, in)
+	}
+
+	return middleware(ctx, in, handler)
+
+}
+
+type GreeterHTTPClient interface {
+	SayHello(ctx context.Context, req *HelloRequest, opts ...http.CallOption) (*HelloReply, error)
+}
+
+type greeterHTTPClient struct {
+	cc *http.Client
+}
+
+func NewGreeterHTTPClient(client *http.Client) GreeterHTTPClient {
+	return &greeterHTTPClient{cc: client}
+}
+
+func (c *greeterHTTPClient) SayHello(ctx context.Context, req *HelloRequest, opts ...http.CallOption) (*HelloReply, error) {
+	reply := new(HelloReply)
+	pattern := "/greeter"
+	path := http.EncodeURLFromForm(pattern, req)
+	_, err := c.cc.Invoke(ctx, "GET", path, req, reply, opts...)
+
+	return reply, err
 }
 
 var _GreeterHTTPService_serviceDesc = &http.ServiceDesc{

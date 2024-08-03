@@ -10,10 +10,10 @@ import (
 var validate = validator.New()
 
 func Validator() http.Middleware {
-	return func(ctx context.Context, req interface{}, handler http.NextHandler) error {
+	return func(ctx context.Context, req interface{}, handler http.Handler) (interface{}, error) {
 		err := validate.Struct(req)
 		if err != nil {
-			return errors.ErrorNameCantNotBeEmpty
+			return nil, errors.ErrorNameCantNotBeEmpty
 		}
 
 		return handler(ctx, req)

@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-error v1.0.0
 // - protoc              v5.26.1
-// source: errors.proto
+// source: api/errors/errors.proto
 
 package errors
 

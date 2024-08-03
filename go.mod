@@ -8,7 +8,7 @@ require (
 	github.com/go-sql-driver/mysql v1.8.1
 	github.com/google/wire v0.6.0
 	github.com/jmoiron/sqlx v1.4.0
-	github.com/mangohow/mangokit v1.0.3
+	github.com/mangohow/mangokit v1.0.4
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/viper v1.19.0
 	google.golang.org/genproto/googleapis/api v0.0.0-20240711142825-46eb208f015d
